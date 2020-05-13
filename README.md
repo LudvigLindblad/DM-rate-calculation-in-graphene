@@ -3,6 +3,7 @@ Python tool fo calculating differential ejection rate of electrons from DM-elect
 
 To run the code please download the files listed. The tabel of eigenvectors C (3 in total) are to large to be stored at Github but can be generated from Graphene_wavefunctions.nb or be sent by request. Do note that the eigenvectors are only needed for the sigma bands.
 
+The calculations are run through integration_station.py 
 
 The integrals over q and k are performed in Rate_calculation.py, as well as the normalization, bandenergies for pi and sigma. 
 
