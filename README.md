@@ -18,7 +18,7 @@ Band energies and eigenvectors for sigma are gather in loadtables.py
 
 
 
-The author of this tool is Julia Andersson, Ebba Grönfors, Christoffer Hellekant, Ludvig Lindblad and Fabian Resare.
+The author of these tools are Julia Andersson, Ebba Grönfors, Christoffer Hellekant, Ludvig Lindblad and Fabian Resare.
 
 For questions, bug reports or other suggestions please contact Ludli@student.chalmers.se, Resaref@student.chalmers.se 
 or chrhelle@student.chalmers.se
