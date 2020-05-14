@@ -11,12 +11,10 @@ from datetime import datetime
 import sys
 import scipy.interpolate as interp
 
-import Rate_calculation
+import rate_calc
 import constants as ct
 import dataplotter
 import integration_methods as mint
-
-
 
 xl=np.linspace(-np.sqrt(3)*ct.c/2, np.sqrt(3)*ct.c/2, 100);
 yl=[];
@@ -56,14 +54,12 @@ for i in range(0, len(lmx)):
             inBZ[i][j]=1;
         else:
             nevals+=1;
-
-
             
-
 method="mp-gl";
 
-calc=eq5.calculatormk3(method);
+calc=rate_calc.calculatormk3(method);
 
+#assemble lambda function for different l:s
 def lcalc(i, j, band, checkBZ=True, fdm=1):
     if checkBZ:
         if inBZ[i][j]==1:
@@ -73,14 +69,11 @@ def lcalc(i, j, band, checkBZ=True, fdm=1):
     else:
         return lambda kf, ind: (ct.rho_chi*ct.Nc*ct.Auc*2/(ct.gen_mu(ind)**2*ct.mchi_list[ind]))*calc.dRdEe(lmx[i][j], lmy[i][j], band, fdm, ind)(kf); 
 
-
-
 #not used during interpolation
 Rfuncs_pi=[];
 Rfuncs_sigma1=[];
 Rfuncs_sigma2=[];
 Rfuncs_sigma3=[];
-
 
 #change this if you want to run differnt q:s for non-interpolation
 #default value 1,  2=q,  3=q**2
@@ -92,11 +85,8 @@ for i in range(0, len(lmx)):
         Rfuncs_sigma1.append(lcalc(i, j, "sigma1", True, fdm));
         Rfuncs_sigma2.append(lcalc(i, j, "sigma2", True, fdm));
         Rfuncs_sigma3.append(lcalc(i, j, "sigma3", True, fdm));
-
-
-       
- 
-#upper bound for pi: ~345 eV
+        
+#upper bound for k_f: ~270 eV
 kl=np.asarray(np.geomspace(3e-25, np.sqrt(2*ct.me*270*ct.q), 16)); #Interval, and #of k_f values
 
 def keval(k, band, parts, index, verbose, mchi_index=0):
@@ -134,9 +124,6 @@ def keval(k, band, parts, index, verbose, mchi_index=0):
         return 0;
 
     return Rk;
-
-
-
 
 def keval_L(k, band, verbose, fdm):
     iL=[];
@@ -187,19 +174,19 @@ def plot_C_pi():
 
 #check if remotely executed
 if __name__=="__main__":
+    #check modes
     if len(sys.argv)==1:
         #start parallellisation
-        nnodes=16;                    #cores
+        nnodes=16;                    #N of cores
         calc_band="sigma1";           #Bands: pi,sigma1,sigma2,sigma3 
         interpolation=False;
-        fdm=1;         #Not used,  Fabian!!
         do_mchi_loop=False;
 
         p=pp.ProcessPool(nodes=nnodes);
         bands=["pi", "sigma1", "sigma2", "sigma3"];
         if do_mchi_loop==False:
             if interpolation==True:
-                est=107.14*num**2*len(kl)/nnodes;          #Estimates time 
+                est=107.14*num**2*len(kl)/nnodes;          #Estimates time (roughly!)
                 t0=time.time();
                 print("Calculation started with method: "+method+", "+str(num**2)+" total l evaluations. Estimated time: "+str(est), file=sys.stderr); 
                 fLl=p.map(lambda k: keval_L(k, calc_band, True, fdm), kl);
@@ -224,7 +211,7 @@ if __name__=="__main__":
             plotter=dataplotter.DataPlotter(kl, krates, calc_band);   
         
             plotter.printout();
-            #plotter.plot();
+            plotter.plot();
 
         else:
             est=107.14*nevals**2*len(kl)*len(ct.mchi_list)/nnodes;
@@ -258,7 +245,7 @@ if __name__=="__main__":
                     parts=1;
                     index=1;
             except:
-                raise Exception("Too few input arguments");
+                raise Exception("Too few input arguments!");
 
             p=pp.ProcessPool(nodes=nnodes);
             
