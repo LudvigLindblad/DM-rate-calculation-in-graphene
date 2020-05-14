@@ -7,7 +7,7 @@ import numpy as np
 import scipy.integrate as spint
 import time
 
-methods=["mp-gl", "mp-ts", "sp-quad", "sp-gauss", "monte-carlo", "w-cumsum", "sp-simps", "romberg"];
+methods=["mp-gl", "mp-ts", "fp-gl", "fp-ts", "sp-quad", "sp-gauss", "monte-carlo", "w-cumsum", "sp-simps", "romberg"];
 
 #cumtrapz relative error tolerance
 err_rel=1e-1;
