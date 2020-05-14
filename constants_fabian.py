@@ -66,14 +66,15 @@ def firstBZ(x):
     else:
         return 0;
 
+#generate reduced mass for given m_chi
 def gen_mu(mchi_index):
     if mchi_index==0:
         return mu;
     else:
         return mchi_list[mchi_index-1]*me/(mchi_list[mchi_index-1]+me);
 
-
-
+    
+#run to plot 1BZ of graphene
 if __name__=="__main__":
     r=np.linspace(-2*c, 2*c, 100);
     R=map(lambda x: firstBZ(x), r);
