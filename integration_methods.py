@@ -78,7 +78,7 @@ def integrate(f, limx, limy, limz, method):
             else:
                 return spint.romberg(lambda x: float(f(x)), limx[0], limx[1], tol=abstol, rtol=reltol);
 
-    #currently broken                   ta bort!!!
+    #currently broken, but slow so unused
     elif method=="sp-gauss":
         if not np.ndim(limx)==0:
             limx=[float(limx[0]), float(limx[1])];
@@ -195,6 +195,8 @@ def integrate(f, limx, limy, limz, method):
                         if loop > maxloop:
                             break;
                         loop+=1;
+                        
+    #still a bit broken but proved slower than mp-gl
     elif method=="monte-carlo":
         N=int(1e6);
         
