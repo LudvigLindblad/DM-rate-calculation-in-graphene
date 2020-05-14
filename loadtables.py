@@ -15,12 +15,9 @@ Es1=lead+"/tables/Esigma1.txt";
 Es2=lead+"/tables/Esigma2.txt";
 Es3=lead+"/tables/Esigma3.txt";
 
-
 C1=lead+"/tables/C_Sigma1_500.txt";
 C2=lead+"/tables/C_Sigma2_500.txt";
 C3=lead+"/tables/C_Sigma3_500.txt";
-
-
 
 #generating lx, ly table constants
 a=ct.a;
@@ -28,10 +25,10 @@ c=4*np.pi/(a*(27**(1/2)));
 num=100;
 num500=500;
 fill=1.1;
-lxl=np.linspace(-fill*3**(1/2)*c/2,fill*3**(1/2)*c/2, num);  #Ematrix 100x100
+lxl=np.linspace(-fill*3**(1/2)*c/2,fill*3**(1/2)*c/2, num);  #Ematrix expecting 100x100
 lyl=np.linspace(-fill*c, fill*c, num);
 lmx, lmy=np.meshgrid(lxl, lyl);
-lxl5=np.linspace(-fill*3**(1/2)*c/2,fill*3**(1/2)*c/2, num500);  #cmatrix 500x500
+lxl5=np.linspace(-fill*3**(1/2)*c/2,fill*3**(1/2)*c/2, num500);  #Cmatrix expecting 500x500
 lyl5=np.linspace(-fill*c, fill*c, num500);
 lmx5, lmy5=np.meshgrid(lxl5, lyl5);
 
@@ -43,20 +40,15 @@ class Table():
     C1mat=[];
     C2mat=[];
     C3mat=[];
-
-  
+    
     def __init__(self):
         self.Es1mat=get_Ematrix(Es1);
         self.Es2mat=get_Ematrix(Es2);
         self.Es3mat=get_Ematrix(Es3);
 
-            
         self.C1mat=get_C_Sigma(C1);
         self.C2mat=get_C_Sigma(C2);
         self.C3mat=get_C_Sigma(C3);
- 
-    
-        
  
     def C_Sigma(self, lx, ly, band):
         i=np.argmin(np.abs(np.subtract(lxl5, lx)));
@@ -72,8 +64,7 @@ class Table():
             print("band error");
             return 0;
 
-
-        def Ematrix(self, lx, ly, band):
+    def Ematrix(self, lx, ly, band):
         i=np.argmin(np.abs(np.subtract(lxl, lx)));
         j=np.argmin(np.abs(np.subtract(lyl, ly)));
  
@@ -87,9 +78,7 @@ class Table():
             print("band error");
             return 0;
 
-
-
-
+#load E values
 def get_Ematrix(file):
     data=[]
 
@@ -125,7 +114,7 @@ def get_C_Sigma(file):
         for x in range(0, num500):
             sm=[];
             real=data[y*num500+x][0].split(" ")[0]; #Read data from string
-            sign=data[y*num500+x][0].split(" ")[1]; #Split into Real and Im
+            sign=data[y*num500+x][0].split(" ")[1]; #Split into Real and Imaginary parts
             imag=data[y*num500+x][0].split(" ")[2].split("i")[0];
             if sign=="+":
                 sm.append(float(real)+1j*float(imag));
@@ -144,12 +133,3 @@ def get_C_Sigma(file):
             Crow.append(sm);   
         Cmat.append(Crow);
     return Cmat;
-
-
-
-if __name__=="__main__":                        #ta bort???
-    t=Table();
-    t.plot_C_heatmap("sigma1", True);
-    t.plot_C_heatmap("sigma2", True);
-    t.plot_C_heatmap("sigma3", True);
-    plt.show();
