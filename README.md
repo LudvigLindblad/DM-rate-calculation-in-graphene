@@ -1,3 +1,5 @@
+The published paper is available at https://hdl.handle.net/20.500.12380/300867
+
 Python tool fo calculating differential ejection rate of electrons from DM-electon scattering in graphene.
 
 To run the code please download the files listed. The tabel of eigenvectors C (3 in total) are to large to be stored at Github but can be generated from Graphene_wavefunctions.nb or be sent by request. Do note that the eigenvectors are only needed for the sigma bands.
